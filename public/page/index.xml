@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pages on errors.New(&#34;antonmry: blog&#34;)</title>
+    <link>https://antonmry.github.io/page/</link>
+    <description>Recent content in Pages on errors.New(&#34;antonmry: blog&#34;)</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>antonmry@galiglobal.com (Antón R. Yuste)</managingEditor>
+    <webMaster>antonmry@galiglobal.com (Antón R. Yuste)</webMaster>
+    <lastBuildDate>Thu, 16 Jun 2016 18:17:47 +0200</lastBuildDate>
+    <atom:link href="https://antonmry.github.io/page/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title></title>
+      <link>https://antonmry.github.io/page/about/</link>
+      <pubDate>Thu, 16 Jun 2016 18:17:47 +0200</pubDate>
+      <author>antonmry@galiglobal.com (Antón R. Yuste)</author>
+      <guid>https://antonmry.github.io/page/about/</guid>
+      <description>&lt;p&gt;Software Engineer who specializes in Web and VoIP development and DevOps practices. Gopher and open source contributor.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

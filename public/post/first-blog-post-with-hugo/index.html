@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>errors.New(&#34;antonmry: blog&#34;)</title>
+  <title>Time to start a Golang blog with Hugo</title>
 
   <meta name="author" content="Antón R. Yuste" />
   
@@ -24,9 +24,9 @@
   <link rel="stylesheet" href="https://antonmry.github.io/css/pygment_highlights.css" />
   
   
-  <meta property="og:title" content="errors.New(&#34;antonmry: blog&#34;)" />
+  <meta property="og:title" content="Time to start a Golang blog with Hugo" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="//" />
+  <meta property="og:url" content="/" />
   <meta property="og:image" content="img/avatar-icon.png" />
   
 </head>
@@ -78,72 +78,124 @@
 </nav>
 
 
-    <header class="header-section ">
-      <div class="intro-header no-img">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-              <div class="page-heading">
-                <h1>errors.New(&#34;antonmry: blog&#34;)</h1>
-                
-                  <hr class="small">
-                  <span class="page-subheading">Golang adventures and other DevOps stuff</span>
-                
-              </div>
-            </div>
-          </div>
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Time to start a Golang blog with Hugo</h1>
+      
+      
+      
+      <span class="post-meta">Posted on June 16, 2016</span>
+      
         </div>
       </div>
-    </header>
+    </div>
+  </div>
+</div>
+</header>
 
 
-    <div role="main" class="container">
-      <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-          <div class="posts-list">
-            
-            
-            <article class="post-preview">
-              <a href="https://antonmry.github.io/post/first-blog-post-with-hugo/">
-          	  <h2 class="post-title">Time to start a Golang blog with Hugo</h2>
-          	
-          	    
-              </a>
 
-              <p class="post-meta">
-                Posted on June 16, 2016
-              </p>
-            
-              <div class="post-entry">
-                Well, this is embarrassing. I&rsquo;ve started another blog!. Why?. I&rsquo;ve started some time ago to write a blog, it started as a corporate thing but later it has become a place where to write or document interesting things I do in my work, most of them related to Java, Groovy and Oracle technologies. The blog is generated with JBake with the gradle plugin and I&rsquo;m quite happy with the result, but to be honest, I don&rsquo;t write frequently.
-          	  <a href="https://antonmry.github.io/post/first-blog-post-with-hugo/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://antonmry.github.io/post/how-to-develop-in-Kubernetes/">
-          	  <h2 class="post-title">How to setup your environment for Kubernetes development</h2>
-          	
-          	    
-              </a>
 
-              <p class="post-meta">
-                Posted on April 30, 2016
-              </p>
-            
-              <div class="post-entry">
-                In this post I&rsquo;m going to show how to create a Kubernetes Development Environment and deploy RestComm (a quite complex software) on it for testing. If you want just deploy RestComm, it&rsquo;s better for you use the Kubernetes Docker option, instead of doing all this process. Install Go Development Environment curl -O https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz tar -zxvf go1.6.linux-amd64.tar.gz mv go ~/Software/ echo &quot;GOROOT=~/Software/go&quot; &gt;&gt; .bash_profile echo &quot;export GOROOT&quot; &gt;&gt; .bash_profile echo &quot;PATH=\$GOROOT/bin:\$PATH&quot; &gt;&gt; ~/.bash_profile echo &quot;export PATH&quot; &gt;&gt; ~/.bash_profile echo &quot;GOPATH=~/Workspace/Telestax/go_kubernetes&quot; &gt;&gt; ~/.bash_profile echo &quot;export GOPATH&quot; &gt;&gt; ~/.bash_profile source ~/.bash_profile mkdir -p $GOPATH Basic Kubernetes installation Clone and download mkdir -p $GOPATH/src/k8s.io cd $GOPATH/src/k8s.io git clone https://github.com/antonmry/kubernetes.git cd kubernetes git remote add upstream 'https://github.com/kubernetes/kubernetes.git' Build and unit test ./hack/build-go.sh &amp;&amp; notify-send &quot;Compilation done&quot; Note!
-          	  <a href="https://antonmry.github.io/post/how-to-develop-in-Kubernetes/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-          </div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p>Well, this is embarrassing. I&rsquo;ve started another blog!. Why?. I&rsquo;ve started some time ago to write a blog, it started as a corporate thing but later it has become a place where to write or document interesting things I do in my work, most of them related to Java, Groovy and Oracle technologies. The blog is generated with <a href="http://jbake.org/">JBake</a> with the <a href="https://github.com/antonmry/jbake-gradle-plugin">gradle plugin</a> and I&rsquo;m quite happy with the result, but to be honest, I don&rsquo;t write frequently.</p>
 
-          
-        </div>
-      </div>
+<p>Six months ago I&rsquo;ve started to learn and use <a href="https://golang.org/">Golang</a>. I was very impressed with the simplicity of the language and I&rsquo;ve started to read a lot of articles, books, etc., watch videos and develop some things. I discovered <a href="https://gohugo.io/">Hugo</a>, a site generator similar to JBake but written in Go. I was tempted to migrate the current blog, but today, it&rsquo;s simpler to open a new one and I can&rsquo;t keep things separated. In another post I will write more about Go and why I found it so interesting.</p>
+
+<p>As the first post, let&rsquo;s see how to configure <a href="https://gohugo.io/">Hugo</a>. I&rsquo;ve to say it was really easy, I really impressed with piece of software. I can comparey with other site generators as Jekyll, Hexo or JBake, and I have to say Hugo is my favourite.</p>
+
+<p>First of all, I&rsquo;ve created a new repo in my Gihub account and cloned it in my laptop:</p>
+
+<pre><code class="language-sh">git clone git@github.com:antonmry/antonmry.github.io.git
+cd antonmry.github.io 
+</code></pre>
+
+<p>Because I&rsquo;m going to use my github user page, the source code of the page has to be in master branch. For your Hugo code, you can have a separate repo or just a different branch. I choose the second option with a branch named source:</p>
+
+<pre><code class="language-sh">git checkout -b source
+git push -u origin source
+</code></pre>
+
+<p>Inside the source code folder, we are going to create a folder linking to the master branch:</p>
+
+<pre><code class="language-sh">git subtree add --prefix=public git@github.com:antonmry/antonmry.github.io.git master --squash
+git subtree pull --prefix=public git@github.com:antonmry/antonmry.github.io.git master
+</code></pre>
+
+<p>It&rsquo;s time to generate the site. First you have to install Hugo, plenty of option in <a href="https://gohugo.io/overview/installing/">the Hugo website</a>. I&rsquo;ve chosen the Fedora package.</p>
+
+<pre><code class="language-sh">hugo new site antonmry.github.io
+mv antonmry.github.io/* .
+rm -r antonmry.github.io
+</code></pre>
+
+<p>Choose your theme, there are very nice options:</p>
+
+<pre><code class="language-sh">cd themes
+git clone https://github.com/halogenica/Hugo-BeautifulHugo.git beautifulhugo
+cd ..
+echo &quot;theme = \&quot;beautifulhugo\&quot;&quot; &gt;&gt; config.toml
+</code></pre>
+
+<p>Create your first blog and start the server:</p>
+
+<pre><code class="language-sh">hugo new post/hugo-site-created.md
+hugo server --buildDrafts
+</code></pre>
+
+<p>Open in your browser <a href="http://localhost:1313/">http://localhost:1313/</a> and enjoy your first blog with Hugo ;-)</p>
+
+<p>Let&rsquo;s move the post from draft to publised, edit the file content/post/hugo-site-created.md and change the draft line from true to false.</p>
+
+<p>Now it&rsquo;s time to upload to Gihub the first version of Hugo and make it public:</p>
+
+<pre><code class="language-sh">git add -A
+git commit -m &quot;Initial version&quot;
+git push
+git subtree push --prefix=public git@github.com:antonmry/antonmry.github.io.git master
+</code></pre>
+
+<p>Oh, really, can it be so easy?. Just go to <a href="https://antonmry.github.io">https://antonmry.github.io</a> (or your equivalent site)</p>
+
+<p>I was thinking in create a travis job to do the publishing in master (I did it before for jbake) but to be honest, this method is quite simple. I&rsquo;ve added to my .bash_alias the last command and that&rsquo;s all I need.</p>
+
+<p>Enjoy!</p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://antonmry.github.io/post/how-to-develop-in-Kubernetes/" data-toggle="tooltip" data-placement="top" title="How to setup your environment for Kubernetes development">&larr; Previous Post</a>
+        </li>
+        
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
     </div>
 
     <footer>
