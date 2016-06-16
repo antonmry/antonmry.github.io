@@ -1,4 +1,28 @@
 baseurl = "https://antonmry.github.io/"
 languageCode = "en-us"
-title = "My New Hugo Site"
-theme ="beautifulhugo"
+title = "errors.New(\"antonmry: blog\")"
+theme = "beautifulhugo"
+pygmentsUseClasses = false
+#disqusShortname = "XXX"
+googleAnalytics = "UA-79438780-1"
+
+[Params]
+  logo = "img/avatar-icon.png"
+  subtitle = "Golang adventures and other DevOps stuff"
+
+[Author]
+  name = "Antón R. Yuste"
+  email = "antonmry@galiglobal.com"
+  github = "antonmry"
+  twitter = "antonmry"
+  stackoverflow = "6002794/antón-r-yuste"
+
+[[menu.main]]
+    name = "Blog"
+    url = "/"
+    weight = 1
+
+[[menu.main]]
+    name = "About"
+    url = "/page/about/"
+    weight = 2
