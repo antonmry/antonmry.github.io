@@ -17,11 +17,11 @@
       <pubDate>Thu, 16 Jun 2016 20:49:50 +0200</pubDate>
       <author>antonmry@galiglobal.com (Antón R. Yuste)</author>
       <guid>https://antonmry.github.io/post/first-blog-post-with-hugo/</guid>
-      <description>&lt;p&gt;Well, this is embarrassing. I&amp;rsquo;ve started another blog!. Why?. I&amp;rsquo;ve started some time ago to write a blog, it started as a corporate thing but later it has become a place where to write or document interesting things I do in my work, most of them related to Java, Groovy and Oracle technologies. The blog is generated with &lt;a href=&#34;http://jbake.org/&#34;&gt;JBake&lt;/a&gt; with the &lt;a href=&#34;https://github.com/antonmry/jbake-gradle-plugin&#34;&gt;gradle plugin&lt;/a&gt; and I&amp;rsquo;m quite happy with the result, but to be honest, I don&amp;rsquo;t write frequently.&lt;/p&gt;
+      <description>&lt;p&gt;Well, this is embarrassing. I&amp;rsquo;m launching another blog!. Why?. Some time ago I&amp;rsquo;ve started to write a blog, in the beginning for corporate news but it has become a place where to write or document interesting things I do in my work, most of them related to Java, Groovy and Oracle technologies. The blog is generated with &lt;a href=&#34;http://jbake.org/&#34;&gt;JBake&lt;/a&gt; with the &lt;a href=&#34;https://github.com/antonmry/jbake-gradle-plugin&#34;&gt;gradle plugin&lt;/a&gt;, I like to use related technologies and I&amp;rsquo;m quite happy with the result, but to be honest, I don&amp;rsquo;t write frequently.&lt;/p&gt;
 
-&lt;p&gt;Six months ago I&amp;rsquo;ve started to learn and use &lt;a href=&#34;https://golang.org/&#34;&gt;Golang&lt;/a&gt;. I was very impressed with the simplicity of the language and I&amp;rsquo;ve started to read a lot of articles, books, etc., watch videos and develop some things. I discovered &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, a site generator similar to JBake but written in Go. I was tempted to migrate the current blog, but today, it&amp;rsquo;s simpler to open a new one and I can&amp;rsquo;t keep things separated. In another post I will write more about Go and why I found it so interesting.&lt;/p&gt;
+&lt;p&gt;Six months ago I&amp;rsquo;ve started to learn and use &lt;a href=&#34;https://golang.org/&#34;&gt;Golang&lt;/a&gt;. I was very impressed with the simplicity of the language and I&amp;rsquo;ve started to read a lot of articles, books, etc., watch videos and develop some projects. I discovered &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, a site generator similar to JBake but written in Go. I was tempted to migrate my previous blog, but today I&amp;rsquo;m going to continue writing about not Golang subjects, so it&amp;rsquo;s simpler to open a new one only for Golang, DevOps, concurrency and perfomance. In another post I will write more about Go and why I find it so interesting.&lt;/p&gt;
 
-&lt;p&gt;As the first post, let&amp;rsquo;s see how to configure &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;. I&amp;rsquo;ve to say it was really easy, I really impressed with piece of software. I can comparey with other site generators as Jekyll, Hexo or JBake, and I have to say Hugo is my favourite.&lt;/p&gt;
+&lt;p&gt;As the first post, let&amp;rsquo;s see how to configure &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;. I&amp;rsquo;ve to say it was really easy, I really impressed with piece of software. I can compare with other site generators as Jekyll, Hexo or JBake, and I have to say Hugo is my favourite.&lt;/p&gt;
 
 &lt;p&gt;First of all, I&amp;rsquo;ve created a new repo in my Gihub account and cloned it in my laptop:&lt;/p&gt;
 
@@ -29,7 +29,7 @@
 cd antonmry.github.io 
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Because I&amp;rsquo;m going to use my github user page, the source code of the page has to be in master branch. For your Hugo code, you can have a separate repo or just a different branch. I choose the second option with a branch named source:&lt;/p&gt;
+&lt;p&gt;Because I&amp;rsquo;m going to use my github user page, the source code of the page must be in master branch. For your Hugo code, you can have a separate repo or just a different branch. I choose the second option with a branch named source, I prefer it in that way, it&amp;rsquo;s simpler and this is the main difference with the procedure you can find in &lt;a href=&#34;https://gohugo.io/tutorials/github-pages-blog&#34;&gt;the excellent Hugo documentation&lt;/a&gt;:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git checkout -b source
 git push -u origin source
@@ -41,14 +41,14 @@ git push -u origin source
 git subtree pull --prefix=public git@github.com:antonmry/antonmry.github.io.git master
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;It&amp;rsquo;s time to generate the site. First you have to install Hugo, plenty of option in &lt;a href=&#34;https://gohugo.io/overview/installing/&#34;&gt;the Hugo website&lt;/a&gt;. I&amp;rsquo;ve chosen the Fedora package.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s time to generate the site. First you have to install Hugo, plenty of options in the &lt;a href=&#34;https://gohugo.io/overview/installing/&#34;&gt;the Hugo website&lt;/a&gt;. I&amp;rsquo;ve chosen the Fedora package, updates will be easier.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;hugo new site antonmry.github.io
 mv antonmry.github.io/* .
 rm -r antonmry.github.io
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Choose your theme, there are very nice options:&lt;/p&gt;
+&lt;p&gt;Choose your theme, there are very nice options, I&amp;rsquo;ve chosen beatifulhugo:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;cd themes
 git clone https://github.com/halogenica/Hugo-BeautifulHugo.git beautifulhugo
@@ -62,11 +62,11 @@ echo &amp;quot;theme = \&amp;quot;beautifulhugo\&amp;quot;&amp;quot; &amp;gt;&am
 hugo server --buildDrafts
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Open in your browser &lt;a href=&#34;http://localhost:1313/&#34;&gt;http://localhost:1313/&lt;/a&gt; and enjoy your first blog with Hugo ;-)&lt;/p&gt;
+&lt;p&gt;Open in your browser &lt;a href=&#34;http://localhost:1313/&#34;&gt;http://localhost:1313/&lt;/a&gt; and enjoy your first post with Hugo ;-)&lt;/p&gt;
 
-&lt;p&gt;Let&amp;rsquo;s move the post from draft to publised, edit the file content/post/hugo-site-created.md and change the draft line from true to false.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s move the post from draft to publised: edit the file content/post/hugo-site-created.md and change the draft line from true to false.&lt;/p&gt;
 
-&lt;p&gt;Now it&amp;rsquo;s time to upload to Gihub the first version of Hugo and make it public:&lt;/p&gt;
+&lt;p&gt;Now it&amp;rsquo;s time to upload it to Gihub and make it public:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add -A
 git commit -m &amp;quot;Initial version&amp;quot;
@@ -76,7 +76,7 @@ git subtree push --prefix=public git@github.com:antonmry/antonmry.github.io.git 
 
 &lt;p&gt;Oh, really, can it be so easy?. Just go to &lt;a href=&#34;https://antonmry.github.io&#34;&gt;https://antonmry.github.io&lt;/a&gt; (or your equivalent site)&lt;/p&gt;
 
-&lt;p&gt;I was thinking in create a travis job to do the publishing in master (I did it before for jbake) but to be honest, this method is quite simple. I&amp;rsquo;ve added to my .bash_alias the last command and that&amp;rsquo;s all I need.&lt;/p&gt;
+&lt;p&gt;I was thinking in create a travis job to do the publishing in master (I did it before for jbake) but to be honest, this method is simple enough. I&amp;rsquo;ve added to my .bash_alias the last command and that&amp;rsquo;s all I need.&lt;/p&gt;
 
 &lt;p&gt;Enjoy!&lt;/p&gt;
 </description>
