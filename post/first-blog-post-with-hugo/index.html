@@ -166,11 +166,12 @@ hugo server --buildDrafts
 
 <p>Open in your browser <a href="http://localhost:1313/">http://localhost:1313/</a> and enjoy your first post with Hugo ;-)</p>
 
-<p>Let&rsquo;s move the post from draft to publised: edit the file content/post/hugo-site-created.md and change the draft line from true to false.</p>
+<p>Let&rsquo;s move the post from draft to publised: edit the file content/post/hugo-site-created.md and change the draft line from true to false if exists.</p>
 
 <p>Now it&rsquo;s time to upload it to Gihub and make it public:</p>
 
-<pre><code class="language-sh">git add -A
+<pre><code class="language-sh">hugo
+git add -A
 git commit -m &quot;Initial version&quot;
 git push
 git subtree push --prefix=public git@github.com:antonmry/antonmry.github.io.git master
@@ -190,6 +191,10 @@ git subtree push --prefix=public git@github.com:antonmry/antonmry.github.io.git 
           <a href="https://antonmry.github.io/post/how-to-develop-in-Kubernetes/" data-toggle="tooltip" data-placement="top" title="How to setup your environment for Kubernetes development">&larr; Previous Post</a>
         </li>
         
+        
+        <li class="next">
+          <a href="https://antonmry.github.io/post/deploying-on-kubernetes-with-gce/" data-toggle="tooltip" data-placement="top" title="Deploying leanmanager on kubernetes with GCE">Next Post &rarr;</a>
+        </li>
         
       </ul>
 
@@ -266,7 +271,7 @@ git subtree push --prefix=public git@github.com:antonmry/antonmry.github.io.git 
         <p class="copyright text-muted">
     		  Antón R. Yuste
     		  &nbsp;&bull;&nbsp;
-    		  2016
+    		  2017
     		  
     		  
     		  &nbsp;&bull;&nbsp;
