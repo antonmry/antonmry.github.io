@@ -64,11 +64,12 @@ hugo server --buildDrafts
 
 &lt;p&gt;Open in your browser &lt;a href=&#34;http://localhost:1313/&#34;&gt;http://localhost:1313/&lt;/a&gt; and enjoy your first post with Hugo ;-)&lt;/p&gt;
 
-&lt;p&gt;Let&amp;rsquo;s move the post from draft to publised: edit the file content/post/hugo-site-created.md and change the draft line from true to false.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s move the post from draft to publised: edit the file content/post/hugo-site-created.md and change the draft line from true to false if exists.&lt;/p&gt;
 
 &lt;p&gt;Now it&amp;rsquo;s time to upload it to Gihub and make it public:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add -A
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;hugo
+git add -A
 git commit -m &amp;quot;Initial version&amp;quot;
 git push
 git subtree push --prefix=public git@github.com:antonmry/antonmry.github.io.git master

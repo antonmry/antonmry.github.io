@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>404 Page not found</title>
+  <title>Deploying leanmanager on kubernetes with GCE</title>
 
   <meta name="author" content="Antón R. Yuste" />
   
@@ -24,9 +24,9 @@
   <link rel="stylesheet" href="https://antonmry.github.io/css/pygment_highlights.css" />
   
   
-  <meta property="og:title" content="404 Page not found" />
+  <meta property="og:title" content="Deploying leanmanager on kubernetes with GCE" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="404.html/" />
+  <meta property="og:url" content="/" />
   <meta property="og:image" content="img/avatar-icon.png" />
 
   <link rel="shortcut icon" href="favicon.ico">
@@ -80,17 +80,127 @@
 </nav>
 
 
-      <div role="main" class="container main-content">
-  
-  	    <div class="text-center">
-    	      <h1>Whoops, this page doesn't exist.</h1>
-    	      <h1>Move along. (404 error)</h1>
-    	      <br/>
-    
-	      <img src="https://antonmry.github.io//img/404-southpark.jpg" />
-	    </div>
-	  
-	  </div>
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Deploying leanmanager on kubernetes with GCE</h1>
+      
+      
+      
+      <span class="post-meta">Posted on January 6, 2017</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<link rel="shortcut icon" href="favicon.ico">
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          
+
+<p>Writing a new post after six months and in Christmas&hellip; New year, new promises, old projects. I&rsquo;ve been quite busy the second half of 2016, but also very happy and satisfied with some personal and professional projects. No more excuses and let&rsquo;s focus in this post.</p>
+
+<h1 id="introduction">Introduction</h1>
+
+<p>I want to deploy my <a href="https://hub.docker.com/r/antonmry/leanmanager">leanmanager Docker image</a> so the bot is available all the time for team but you can choose any Docker image you want to use. I want to use <a href="https://cloud.google.com/container-engine/docs/quickstart">Google Container Engine</a> and do it everything as much automatic as possible.</p>
+
+<h2 id="gce-installation">GCE installation</h2>
+
+<p>First step, make sure you&rsquo;ve created previously a project in the Google Cloud console. If you don&rsquo;t have the Cloud SDK, you are going to need it. It&rsquo;s quite easy to install following <a href="https://cloud.google.com/sdk/docs/quickstart-linux">the Google instructions</a>:</p>
+
+<pre><code>cd ~/Software
+curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-138.0.0-linux-x86_64.tar.gz
+tar -zxvf google-cloud-sdk-138.0.0-linux-x86_64.tar.gz
+rm google-cloud-sdk-138.0.0-linux-x86_64.tar.gz
+./google-cloud-sdk/install.sh
+</code></pre>
+
+<p><strong>Note</strong>: be careful, last command modifies your .bashrc and it may cause problems.</p>
+
+<p>Now, it&rsquo;s time to log in:</p>
+
+<pre><code>gcloud init
+</code></pre>
+
+<p>And now, install kubectl, the client to manage kubernetes:</p>
+
+<pre><code>gcloud components install kubectl
+</code></pre>
+
+<h2 id="launching-the-service">Launching the service</h2>
+
+<p>The first step is to create the cluster. It may take some time.</p>
+
+<pre><code>gcloud container clusters create leanmanager-cluster
+
+</code></pre>
+
+<p>Ensure kubectl can access to the service:</p>
+
+<pre><code>gcloud auth application-default login
+</code></pre>
+
+<p>And now, it&rsquo;s time to launch the leanmanager image:</p>
+
+<pre><code>kubectl run leanmanager-node --image=antonmry/leanmanager:latest --env=&quot;LEANMANAGER_TOKEN=$LEANMANAGER_TOKEN&quot;
+</code></pre>
+
+<p><strong>Note:</strong> I have an environment variable <code>LEANMANAGER_TOKEN</code> with the token to authenticate to Slack. The bot automatically connects using Websocket but if you want to expose any service, add `&ndash;port=8080&rdquo; to allow access to it. You will need also to create a Load Balancer, the steps are explained <a href="https://cloud.google.com/container-engine/docs/quickstart">here</a>.</p>
+
+<h2 id="cleaning-the-service">Cleaning the service</h2>
+
+<p>To stop the service and delete the cluster:</p>
+
+<pre><code>gcloud container clusters delete leanmanager-cluster
+</code></pre>
+
+<h1 id="next-step-automate-it">Next step: automate it!</h1>
+
+<p>Our next step it&rsquo;s going to be to automate all the process. To do it, we&rsquo;ll use <a href="https://www.terraform.io">Terraform</a>.</p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://antonmry.github.io/post/first-blog-post-with-hugo/" data-toggle="tooltip" data-placement="top" title="Time to start a Golang blog with Hugo">&larr; Previous Post</a>
+        </li>
+        
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
 
     <footer>
   <div class="container beautiful-jekyll-footer">

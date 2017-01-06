@@ -60,11 +60,12 @@ hugo server --buildDrafts
 
 Open in your browser http://localhost:1313/ and enjoy your first post with Hugo ;-)
 
-Let's move the post from draft to publised: edit the file content/post/hugo-site-created.md and change the draft line from true to false.
+Let's move the post from draft to publised: edit the file content/post/hugo-site-created.md and change the draft line from true to false if exists.
 
 Now it's time to upload it to Gihub and make it public:
 
 ```sh
+hugo
 git add -A
 git commit -m "Initial version"
 git push
