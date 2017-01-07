@@ -150,6 +150,13 @@ git subtree push --prefix=public git@github.com:antonmry/antonmry.github.io.git 
 &lt;p&gt;I was thinking in create a travis job to do the publishing in master (I did it before for jbake) but to be honest, this method is simple enough. I&amp;rsquo;ve added to my .bash_alias the last command and that&amp;rsquo;s all I need.&lt;/p&gt;
 
 &lt;p&gt;Enjoy!&lt;/p&gt;
+
+&lt;p&gt;PS: if you do a rebase in &lt;code&gt;source&lt;/code&gt;, you will need to do it a bit more tricky to push to master because you can&amp;rsquo;t use &lt;code&gt;--force&lt;/code&gt; with the &lt;code&gt;subtree&lt;/code&gt; option:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push origin `git subtree split --prefix public source`:master --force
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;More info can be found in Stackoverflow &lt;a href=&#34;http://stackoverflow.com/questions/13756055/git-subtree-subtree-up-to-date-but-cant-push&#34;&gt;Git subtree - subtree up-to-date but can&amp;rsquo;t push&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     

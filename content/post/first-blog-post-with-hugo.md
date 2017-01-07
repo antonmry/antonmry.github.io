@@ -77,3 +77,11 @@ Oh, really, can it be so easy?. Just go to https://antonmry.github.io (or your e
 I was thinking in create a travis job to do the publishing in master (I did it before for jbake) but to be honest, this method is simple enough. I've added to my .bash_alias the last command and that's all I need.
 
 Enjoy!
+
+PS: if you do a rebase in `source`, you will need to do it a bit more tricky to push to master because you can't use `--force` with the `subtree` option:
+
+```sh
+git push origin `git subtree split --prefix public source`:master --force
+```
+More info can be found in Stackoverflow [Git subtree - subtree up-to-date but can't push](http://stackoverflow.com/questions/13756055/git-subtree-subtree-up-to-date-but-cant-push).
+
