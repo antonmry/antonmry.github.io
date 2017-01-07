@@ -1,6 +1,6 @@
 +++
 date = "2017-01-06T22:37:18+01:00"
-title = "Deploying on kubernetes GKE with Terraform"
+title = "Deploy on kubernetes GKE with Terraform"
 
 +++
 

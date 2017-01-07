@@ -12,11 +12,11 @@
     <atom:link href="https://antonmry.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Deploying on kubernetes GKE with Terraform</title>
-      <link>https://antonmry.github.io/post/deploying-on-kubernetes-with-gce/</link>
+      <title>Deploy on kubernetes GKE with Terraform</title>
+      <link>https://antonmry.github.io/post/deploy-on-kubernetes-gke-with-terraform/</link>
       <pubDate>Fri, 06 Jan 2017 22:37:18 +0100</pubDate>
       <author>antonmry@galiglobal.com (Antón R. Yuste)</author>
-      <guid>https://antonmry.github.io/post/deploying-on-kubernetes-with-gce/</guid>
+      <guid>https://antonmry.github.io/post/deploy-on-kubernetes-gke-with-terraform/</guid>
       <description>
 
 &lt;p&gt;Writing a new post after six months and in Christmas&amp;hellip; New year, new promises, old projects. I&amp;rsquo;ve been quite busy the second half of 2016, but also very happy and satisfied with some personal and professional projects. No more excuses and let&amp;rsquo;s focus in this post.&lt;/p&gt;
@@ -65,7 +65,7 @@ rm google-cloud-sdk-138.0.0-linux-x86_64.tar.gz
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;kubectl run leanmanager-node --image=antonmry/leanmanager:latest --env=&amp;quot;LEANMANAGER_TOKEN=$LEANMANAGER_TOKEN&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; I have an environment variable &lt;code&gt;LEANMANAGER_TOKEN&lt;/code&gt; with the token to authenticate to Slack. The bot automatically connects using Websocket but if you want to expose any service, add `&amp;ndash;port=8080&amp;rdquo; to allow access to it. You will need also to create a Load Balancer, the steps are explained &lt;a href=&#34;https://cloud.google.com/container-engine/docs/quickstart&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; I have an environment variable &lt;code&gt;LEANMANAGER_TOKEN&lt;/code&gt; with the token to authenticate to Slack. The bot automatically connects using Websocket but if you want to expose any service, add &lt;code&gt;--port=8080&lt;/code&gt; to allow access to it. You will need also to create a Load Balancer, the steps are explained &lt;a href=&#34;https://cloud.google.com/container-engine/docs/quickstart&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&#34;clean-the-service&#34;&gt;Clean the service&lt;/h2&gt;
 
@@ -80,7 +80,7 @@ rm google-cloud-sdk-138.0.0-linux-x86_64.tar.gz
 
 &lt;p&gt;Our next step it&amp;rsquo;s going to be to automate all the process. To do it, we&amp;rsquo;ll use &lt;a href=&#34;https://www.terraform.io&#34;&gt;Terraform&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;If you don&amp;rsquo;t have it, first step is going to be dowload from &lt;a href=&#34;https://www.terraform.io/downloads.html&#34;&gt;here&lt;/a&gt; and install it. For linux:&lt;/p&gt;
+&lt;p&gt;If you don&amp;rsquo;t have it, first step is download it from &lt;a href=&#34;https://www.terraform.io/downloads.html&#34;&gt;here&lt;/a&gt; and install it. For linux:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;curl -O https://releases.hashicorp.com/terraform/0.8.2/terraform_0.8.2_linux_amd64.zip
 unzip terraform_0.8.2_linux_amd64.zip
@@ -92,7 +92,7 @@ unzip terraform_0.8.2_linux_amd64.zip
 echo terraform &amp;gt;&amp;gt; ~/bin/.gitignore
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Last command is executed because I&amp;rsquo;ve &lt;code&gt;~/bin&#39; in github but I don&#39;t want upload a so big file as&lt;/code&gt;terraform` executable.&lt;/p&gt;
+&lt;p&gt;Last command is executed because I&amp;rsquo;ve &lt;code&gt;~/bin&lt;/code&gt; in github but I don&amp;rsquo;t want upload a so big file as &lt;code&gt;terraform&lt;/code&gt; executable.&lt;/p&gt;
 
 &lt;p&gt;Now you should be able to use &lt;code&gt;terraform&lt;/code&gt; in your system. If you&amp;rsquo;ve never used before, it&amp;rsquo;s a good moment to read the &lt;a href=&#34;https://www.terraform.io/intro/getting-started/build.html&#34;&gt;Getting started guide&lt;/a&gt;.&lt;/p&gt;
 
@@ -105,7 +105,7 @@ echo terraform &amp;gt;&amp;gt; ~/bin/.gitignore
 &lt;li&gt;Click the menu button in the top left corner, and navigate to &amp;ldquo;IAM &amp;amp; Admin&amp;rdquo;, then &amp;ldquo;Service accounts&amp;rdquo;, and finally &amp;ldquo;Create service account&amp;rdquo;.&lt;/li&gt;
 &lt;li&gt;Provide a name and ID in the corresponding fields, select &amp;ldquo;Furnish a new private key&amp;rdquo;, and select &amp;ldquo;JSON&amp;rdquo; as the key type.&lt;/li&gt;
 &lt;li&gt;Clicking &amp;ldquo;Create&amp;rdquo; will download your credentials.&lt;/li&gt;
-&lt;li&gt;Rename it to &lt;code&gt;account.json&lt;/code&gt;. Make sure you don&amp;rsquo;t publish this file, for instance in Github (add it to &lt;code&gt;gitignore&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Rename it to &lt;code&gt;account.json&lt;/code&gt;. Make sure you don&amp;rsquo;t publish this file, for instance in Github (add it to &lt;code&gt;.gitignore&lt;/code&gt;).&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h2 id=&#34;create-the-cluster-using-terraform&#34;&gt;Create the cluster using Terraform&lt;/h2&gt;
@@ -150,7 +150,7 @@ resource &amp;quot;google_container_cluster&amp;quot; &amp;quot;primary&amp;quot
 
 &lt;p&gt;Review the output and if it&amp;rsquo;s ok, launch it!.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;terraform apply -var LEANAMANAGER_TOKEN=$LEANAMANAGER_TOKEN
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;terraform apply
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;If everything goes well, you will see a message like this:&lt;/p&gt;
@@ -177,23 +177,33 @@ kubectl cluster-info
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;And executing terraform passing the variable:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;terraform apply -var LEANAMANAGER_TOKEN=$LEANAMANAGER_TOKEN
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Other option would be read the variable but you have to change the name to fit the terraform requirements. More info &lt;a href=&#34;https://www.terraform.io/docs/configuration/variables.html&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
 &lt;h2 id=&#34;launch-our-docker-instance&#34;&gt;Launch our Docker instance&lt;/h2&gt;
 
 &lt;p&gt;Once you are logged in with &lt;code&gt;kubectl&lt;/code&gt;, it&amp;rsquo;s exactly the same as before:&lt;/p&gt;
 
-&lt;p&gt;But you can also do it with Terraform adding this snippet after the previous &lt;code&gt;local-exec&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;kubectl run leanmanager-node --image=antonmry/leanmanager:latest --env=&amp;quot;LEANMANAGER_TOKEN=$LEANMANAGER_TOKEN&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;But you can also do it with Terraform adding this snippet in the beginning:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;variable &amp;quot;LEANMANAGER_TOKEN&amp;quot; {
+      default = &amp;quot;USE YOUR OWN TOKEN&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And after the previous &lt;code&gt;local-exec&lt;/code&gt;:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;provisioner &amp;quot;local-exec&amp;quot; {
     command = &amp;quot;kubectl run leanmanager-node --image=antonmry/leanmanager:latest --env=LEANMANAGER_TOKEN=${var.LEANMANAGER_TOKEN}&amp;quot;
 }
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And executing terraform passing the variable:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;terraform apply -var LEANMANAGER_TOKEN=$LEANMANAGER_TOKEN
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Other option would be read the variable directly but you have to change the name to fit the terraform requirements and I&amp;rsquo;m using it for other things. More info &lt;a href=&#34;https://www.terraform.io/docs/configuration/variables.html&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&#34;clean-everything&#34;&gt;Clean everything&lt;/h2&gt;
 
