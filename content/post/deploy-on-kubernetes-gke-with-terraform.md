@@ -6,7 +6,7 @@ title = "Deploy on kubernetes GKE with Terraform"
 
 Writing a new post after six months and in Christmas... New year, new promises, old projects. I've been quite busy the second half of 2016, but also very happy and satisfied with some personal and professional projects. No more excuses and let's focus in this post.
 
-# Introduction
+## Introduction
 
 I want to deploy my [leanmanager Docker image](https://hub.docker.com/r/antonmry/leanmanager) so the bot is available all the time for the team, but you can choose any Docker image you want to use. I want to use [Google Container Engine](https://cloud.google.com/container-engine/docs/quickstart) Kubernetes implementation and do it everything as much automatic as possible using Terraform.
 
@@ -66,8 +66,6 @@ To stop the service and delete the cluster:
 ```sh
 gcloud container clusters delete leanmanager-cluster
 ```
-
-# Next step: automate it with Terraform!
 
 ## Install Terraform
 
@@ -214,7 +212,7 @@ With Terraform is really easy, just:
 terraform destroy
 ```
 
-# Not already linked but useful resources
+## Not already linked but useful resources
 
 * [Simple GCE setup Terraform](http://container-solutions.com/simple-gce-setup-terraform/)
 * [terraform-gke](https://github.com/l337ch/terraform-gke)
