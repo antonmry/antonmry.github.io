@@ -183,6 +183,13 @@ git subtree push --prefix=public git@github.com:antonmry/antonmry.github.io.git 
 
 <p>Enjoy!</p>
 
+<p>PS: if you do a rebase in <code>source</code>, you will need to do it a bit more tricky to push to master because you can&rsquo;t use <code>--force</code> with the <code>subtree</code> option:</p>
+
+<pre><code class="language-sh">git push origin `git subtree split --prefix public source`:master --force
+</code></pre>
+
+<p>More info can be found in Stackoverflow <a href="http://stackoverflow.com/questions/13756055/git-subtree-subtree-up-to-date-but-cant-push">Git subtree - subtree up-to-date but can&rsquo;t push</a>.</p>
+
       </article>
 
       <ul class="pager blog-pager">
