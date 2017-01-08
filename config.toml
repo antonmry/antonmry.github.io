@@ -8,7 +8,7 @@ googleAnalytics = "UA-79438780-1"
 
 [Params]
   logo = "img/avatar-icon.png"
-  subtitle = "Golang adventures and other DevOps stuff"
+  subtitle = "Go adventures, bots and DevOps stuff"
 
 [Author]
   name = "Antón R. Yuste"
