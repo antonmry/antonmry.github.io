@@ -12,21 +12,21 @@
     <atom:link href="https://antonmry.github.io/tags/blogging/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Time to start a Golang blog with Hugo</title>
+      <title>Time to start a Go blog with Hugo</title>
       <link>https://antonmry.github.io/post/first-blog-post-with-hugo/</link>
       <pubDate>Thu, 16 Jun 2016 20:49:50 +0200</pubDate>
       <author>antonmry@galiglobal.com (Antón R. Yuste)</author>
       <guid>https://antonmry.github.io/post/first-blog-post-with-hugo/</guid>
       <description>&lt;p&gt;Well, this is embarrassing. I&amp;rsquo;m launching another blog!. Why?. Some time ago I&amp;rsquo;ve started to write a blog, in the beginning for corporate news but it has become a place where to write or document interesting things I do in my work, most of them related to Java, Groovy and Oracle technologies. The blog is generated with &lt;a href=&#34;http://jbake.org/&#34;&gt;JBake&lt;/a&gt; with the &lt;a href=&#34;https://github.com/antonmry/jbake-gradle-plugin&#34;&gt;gradle plugin&lt;/a&gt;, I like to use related technologies and I&amp;rsquo;m quite happy with the result, but to be honest, I don&amp;rsquo;t write frequently.&lt;/p&gt;
 
-&lt;p&gt;Six months ago I&amp;rsquo;ve started to learn and use &lt;a href=&#34;https://golang.org/&#34;&gt;Golang&lt;/a&gt;. I was very impressed with the simplicity of the language and I&amp;rsquo;ve started to read a lot of articles, books, etc., watch videos and develop some projects. I discovered &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, a site generator similar to JBake but written in Go. I was tempted to migrate my previous blog, but today I&amp;rsquo;m going to continue writing about not Golang subjects, so it&amp;rsquo;s simpler to open a new one only for Golang, DevOps, concurrency and perfomance. In another post I will write more about Go and why I find it so interesting.&lt;/p&gt;
+&lt;p&gt;Six months ago I&amp;rsquo;ve started to learn and use &lt;a href=&#34;https://golang.org/&#34;&gt;Go&lt;/a&gt;. I was very impressed with the simplicity of the language and I&amp;rsquo;ve started to read a lot of articles, books, etc., watch videos and develop some projects. I discovered &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, a site generator similar to JBake but written in Go. I was tempted to migrate my previous blog, but today I&amp;rsquo;m going to continue writing about not Go subjects, so it&amp;rsquo;s simpler to open a new one only for Go, bots, DevOps, concurrency and perfomance. In another post I will write more about Go and why I find it so interesting.&lt;/p&gt;
 
 &lt;p&gt;As the first post, let&amp;rsquo;s see how to configure &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;. I&amp;rsquo;ve to say it was really easy, I really impressed with piece of software. I can compare with other site generators as Jekyll, Hexo or JBake, and I have to say Hugo is my favourite.&lt;/p&gt;
 
 &lt;p&gt;First of all, I&amp;rsquo;ve created a new repo in my Gihub account and cloned it in my laptop:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git clone git@github.com:antonmry/antonmry.github.io.git
-cd antonmry.github.io 
+cd antonmry.github.io
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Because I&amp;rsquo;m going to use my github user page, the source code of the page must be in master branch. For your Hugo code, you can have a separate repo or just a different branch. I choose the second option with a branch named source, I prefer it in that way, it&amp;rsquo;s simpler and this is the main difference with the procedure you can find in &lt;a href=&#34;https://gohugo.io/tutorials/github-pages-blog&#34;&gt;the excellent Hugo documentation&lt;/a&gt;:&lt;/p&gt;

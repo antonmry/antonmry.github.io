@@ -123,7 +123,7 @@
 
 <p>Writing a new post after six months and in Christmas&hellip; New year, new promises, old projects. I&rsquo;ve been quite busy the second half of 2016, but also very happy and satisfied with some personal and professional projects. No more excuses and let&rsquo;s focus in this post.</p>
 
-<h1 id="introduction">Introduction</h1>
+<h2 id="introduction">Introduction</h2>
 
 <p>I want to deploy my <a href="https://hub.docker.com/r/antonmry/leanmanager">leanmanager Docker image</a> so the bot is available all the time for the team, but you can choose any Docker image you want to use. I want to use <a href="https://cloud.google.com/container-engine/docs/quickstart">Google Container Engine</a> Kubernetes implementation and do it everything as much automatic as possible using Terraform.</p>
 
@@ -175,8 +175,6 @@ rm google-cloud-sdk-138.0.0-linux-x86_64.tar.gz
 
 <pre><code class="language-sh">gcloud container clusters delete leanmanager-cluster
 </code></pre>
-
-<h1 id="next-step-automate-it-with-terraform">Next step: automate it with Terraform!</h1>
 
 <h2 id="install-terraform">Install Terraform</h2>
 
@@ -314,7 +312,7 @@ kubectl cluster-info
 <pre><code class="language-sh">terraform destroy
 </code></pre>
 
-<h1 id="not-already-linked-but-useful-resources">Not already linked but useful resources</h1>
+<h2 id="not-already-linked-but-useful-resources">Not already linked but useful resources</h2>
 
 <ul>
 <li><a href="http://container-solutions.com/simple-gce-setup-terraform/">Simple GCE setup Terraform</a></li>
@@ -328,9 +326,13 @@ kubectl cluster-info
       <ul class="pager blog-pager">
         
         <li class="previous">
-          <a href="https://antonmry.github.io/post/first-blog-post-with-hugo/" data-toggle="tooltip" data-placement="top" title="Time to start a Golang blog with Hugo">&larr; Previous Post</a>
+          <a href="https://antonmry.github.io/post/first-blog-post-with-hugo/" data-toggle="tooltip" data-placement="top" title="Time to start a Go blog with Hugo">&larr; Previous Post</a>
         </li>
         
+        
+        <li class="next">
+          <a href="https://antonmry.github.io/post/how-to-persist-your-configuration-in-gke/" data-toggle="tooltip" data-placement="top" title="How to persist your configuration in GKE">Next Post &rarr;</a>
+        </li>
         
       </ul>
 
