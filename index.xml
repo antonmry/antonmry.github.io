@@ -8,8 +8,132 @@
     <language>en-us</language>
     <managingEditor>antonmry@galiglobal.com (Antón R. Yuste)</managingEditor>
     <webMaster>antonmry@galiglobal.com (Antón R. Yuste)</webMaster>
-    <lastBuildDate>Fri, 06 Jan 2017 22:37:18 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 09 Jan 2017 18:21:15 +0100</lastBuildDate>
     <atom:link href="https://antonmry.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>How to persist your configuration in GKE</title>
+      <link>https://antonmry.github.io/post/how-to-persist-your-configuration-in-gke/</link>
+      <pubDate>Mon, 09 Jan 2017 18:21:15 +0100</pubDate>
+      <author>antonmry@galiglobal.com (Antón R. Yuste)</author>
+      <guid>https://antonmry.github.io/post/how-to-persist-your-configuration-in-gke/</guid>
+      <description>
+
+&lt;p&gt;In my previous post, &lt;a href=&#34;https://antonmry.github.io/post/deploy-on-kubernetes-gke-with-terraform/&#34;&gt;Deploy on Kubernetes GKE with Terraform&lt;/a&gt;, we&amp;rsquo;ve seen how to start to use kubernetes but in a very simple way. The next thing we would like to do is persist the configuration, so we don&amp;rsquo;t need to reconfigure our bot each time we start the cluster. This post explain how to do it from the configuration created in the previous one.&lt;/p&gt;
+
+&lt;p&gt;Again we&amp;rsquo;ll use &lt;a href=&#34;https://github.com/antonmry/leanmanager&#34;&gt;Leanmanager bot&lt;/a&gt; but everything applies to any other system which needs to store configuration or data in a database. In the case of &lt;a href=&#34;https://github.com/antonmry/leanmanager&#34;&gt;Leanmanager&lt;/a&gt; we are using &lt;a href=&#34;https://github.com/boltdb/bolt&#34;&gt;Boltdb&lt;/a&gt;, a pure Go key/value store. &lt;a href=&#34;https://github.com/boltdb/bolt&#34;&gt;Boltdb&lt;/a&gt; is great for development but it doesn&amp;rsquo;t support to have more than one process opening the same database file, so it may be problematic if we want to have more than one Docker instance at the same time. Yet it&amp;rsquo;s enough for our purposes and the process is similar for &lt;a href=&#34;https://www.consul.io/&#34;&gt;Consul&lt;/a&gt; which it&amp;rsquo;s already in the Roadmap.&lt;/p&gt;
+
+&lt;h2 id=&#34;create-your-persistent-disks&#34;&gt;Create your persistent disks&lt;/h2&gt;
+
+&lt;p&gt;If we want to persist data, we are going to need a disk, that&amp;rsquo;s common sense. In GCE we can do it very easily:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;gcloud compute disks create --size 1GB leanmanager-disk
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;But again, we want to do it in an automated way with Terraform. Use the following file &lt;code&gt;leanmanager-disk.tf&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;variable &amp;quot;disk_name&amp;quot; {
+  default = &amp;quot;leanmanager-disk&amp;quot;
+}
+
+resource &amp;quot;google_compute_disk&amp;quot; &amp;quot;default&amp;quot; {
+name  = &amp;quot;${var.disk_name}&amp;quot;
+  type  = &amp;quot;pd-ssd&amp;quot;
+  zone = &amp;quot;${var.region}&amp;quot;
+  size  = &amp;quot;1&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you want to know more about it, visit the &lt;a href=&#34;https://www.terraform.io/docs/providers/google/r/compute_disk.html&#34;&gt;Terraform Google_Compute_Disk reference documentation&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;tell-the-container-about-the-disk&#34;&gt;Tell the container about the disk&lt;/h2&gt;
+
+&lt;p&gt;In our previous post, we&amp;rsquo;ve launched the bot using &lt;code&gt;kubectl run&lt;/code&gt;. This is OK for simple configuration but if we need to have something more complex, it doesn&amp;rsquo;t scale. We can create a &lt;a href=&#34;http://kubernetes.io/docs/user-guide/pods/&#34;&gt;pod&lt;/a&gt;, a group of one or more containers, using a YAML file like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;apiVersion: v1
+kind: Pod
+metadata:
+  name: leanmanager
+  labels:
+    name: leanmanager
+spec:
+  containers:
+    - image: antonmry/leanmanager:latest
+      name: leanmanager
+      env:
+        - name: LEANMANAGER_TOKEN
+          value: LEANMANAGER_TOKEN_TEMPLATE
+        - name: LEANMANAGER_PATHDB
+          value: /mnt
+      volumeMounts:
+          # This name must match the volumes.name below.
+        - name: leanmanager-persistent-storage
+          mountPath: /mnt
+  volumes:
+    - name: leanmanager-persistent-storage
+      gcePersistentDisk:
+        # This disk must already exist.
+        pdName: leanmanager-disk
+        fsType: ext4
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The file is auto-explanatory except the value &lt;code&gt;LEANMANAGER_TOKEN_TEMPLATE&lt;/code&gt;. I don&amp;rsquo;t want to hardcode the Token here because the file will be uploaded to Github. Instead of that, I want to use my local environment variable LEANMANAGER_TOKEN but this isn&amp;rsquo;t supported yet in K8s, see &lt;a href=&#34;http://stackoverflow.com/questions/33478555/kubernetes-equivalent-of-env-file-in-docker&#34;&gt;Kubernetes equivalent of env-file in Docker&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So I&amp;rsquo;ve created a YAML template and in the Terraform file changed the last &lt;code&gt;local-exec&lt;/code&gt; to:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  provisioner &amp;quot;local-exec&amp;quot; {
+    command = &amp;quot;cp leanmanager-pod-template.yaml leanmanager.tmp.yaml &amp;amp;&amp;amp; sed -i -- &#39;s/LEANMANAGER_TOKEN_TEMPLATE/${var.LEANMANAGER_TOKEN}/g&#39; leanmanager.tmp.yaml&amp;quot;
+  }
+
+  provisioner &amp;quot;local-exec&amp;quot; {
+    command = &amp;quot;kubectl create -f leanmanager.tmp.yaml&amp;quot;
+  }
+
+  provisioner &amp;quot;local-exec&amp;quot; {
+    command = &amp;quot;rm -f leanmanager.tmp.yaml&amp;quot;
+  }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Basically, I&amp;rsquo;m replacing strings with &lt;code&gt;sed&lt;/code&gt;. Other more sophisticate approaches are possible as K8s secrets or Ansible, but this is simple and enough for the task we want to do.&lt;/p&gt;
+
+&lt;h2 id=&#34;create-the-pod-and-test&#34;&gt;Create the pod and test&lt;/h2&gt;
+
+&lt;p&gt;Time to create the cluster and the pod:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;terraform plan
+terraform apply -var LEANMANAGER_TOKEN=$LEANMANAGER_TOKEN
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The bot should connect. Now we can do some changes in the configuration, delete the pod:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;kubectl delete pod leanmanager
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Create it again:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;kubectl create -f leanmanager.yaml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And check the status with the following commands and, once it&amp;rsquo;s in &lt;em&gt;Running&lt;/em&gt; state, see if everything has been persisted:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;kubectl get pod leanmanager
+kubectl logs leanmanager
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Persist data in Kubernetes is quite easy, even if you are going to do it automatically.&lt;/p&gt;
+
+&lt;p&gt;If you want to check all the files, the full project and the associated PR are in &lt;a href=&#34;https://github.com/antonmry/leanmanager/pull/27/commits/ffea981b5deca5376b7bb8de1ed797da9aa282b0&#34;&gt;Github&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;not-already-linked-but-useful-resources&#34;&gt;Not already linked but useful resources&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://kubernetes.io/docs/user-guide/persistent-volumes/&#34;&gt;Kubernetes persistent volumes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://cloud.google.com/container-engine/docs/tutorials/persistent-disk/&#34;&gt;Using Persistent Disks with WordPress and MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>Deploy on kubernetes GKE with Terraform</title>
@@ -21,7 +145,7 @@
 
 &lt;p&gt;Writing a new post after six months and in Christmas&amp;hellip; New year, new promises, old projects. I&amp;rsquo;ve been quite busy the second half of 2016, but also very happy and satisfied with some personal and professional projects. No more excuses and let&amp;rsquo;s focus in this post.&lt;/p&gt;
 
-&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 
 &lt;p&gt;I want to deploy my &lt;a href=&#34;https://hub.docker.com/r/antonmry/leanmanager&#34;&gt;leanmanager Docker image&lt;/a&gt; so the bot is available all the time for the team, but you can choose any Docker image you want to use. I want to use &lt;a href=&#34;https://cloud.google.com/container-engine/docs/quickstart&#34;&gt;Google Container Engine&lt;/a&gt; Kubernetes implementation and do it everything as much automatic as possible using Terraform.&lt;/p&gt;
 
@@ -73,8 +197,6 @@ rm google-cloud-sdk-138.0.0-linux-x86_64.tar.gz
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;gcloud container clusters delete leanmanager-cluster
 &lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;next-step-automate-it-with-terraform&#34;&gt;Next step: automate it with Terraform!&lt;/h1&gt;
 
 &lt;h2 id=&#34;install-terraform&#34;&gt;Install Terraform&lt;/h2&gt;
 
@@ -212,7 +334,7 @@ kubectl cluster-info
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;terraform destroy
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h1 id=&#34;not-already-linked-but-useful-resources&#34;&gt;Not already linked but useful resources&lt;/h1&gt;
+&lt;h2 id=&#34;not-already-linked-but-useful-resources&#34;&gt;Not already linked but useful resources&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://container-solutions.com/simple-gce-setup-terraform/&#34;&gt;Simple GCE setup Terraform&lt;/a&gt;&lt;/li&gt;
@@ -224,21 +346,21 @@ kubectl cluster-info
     </item>
     
     <item>
-      <title>Time to start a Golang blog with Hugo</title>
+      <title>Time to start a Go blog with Hugo</title>
       <link>https://antonmry.github.io/post/first-blog-post-with-hugo/</link>
       <pubDate>Thu, 16 Jun 2016 20:49:50 +0200</pubDate>
       <author>antonmry@galiglobal.com (Antón R. Yuste)</author>
       <guid>https://antonmry.github.io/post/first-blog-post-with-hugo/</guid>
       <description>&lt;p&gt;Well, this is embarrassing. I&amp;rsquo;m launching another blog!. Why?. Some time ago I&amp;rsquo;ve started to write a blog, in the beginning for corporate news but it has become a place where to write or document interesting things I do in my work, most of them related to Java, Groovy and Oracle technologies. The blog is generated with &lt;a href=&#34;http://jbake.org/&#34;&gt;JBake&lt;/a&gt; with the &lt;a href=&#34;https://github.com/antonmry/jbake-gradle-plugin&#34;&gt;gradle plugin&lt;/a&gt;, I like to use related technologies and I&amp;rsquo;m quite happy with the result, but to be honest, I don&amp;rsquo;t write frequently.&lt;/p&gt;
 
-&lt;p&gt;Six months ago I&amp;rsquo;ve started to learn and use &lt;a href=&#34;https://golang.org/&#34;&gt;Golang&lt;/a&gt;. I was very impressed with the simplicity of the language and I&amp;rsquo;ve started to read a lot of articles, books, etc., watch videos and develop some projects. I discovered &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, a site generator similar to JBake but written in Go. I was tempted to migrate my previous blog, but today I&amp;rsquo;m going to continue writing about not Golang subjects, so it&amp;rsquo;s simpler to open a new one only for Golang, DevOps, concurrency and perfomance. In another post I will write more about Go and why I find it so interesting.&lt;/p&gt;
+&lt;p&gt;Six months ago I&amp;rsquo;ve started to learn and use &lt;a href=&#34;https://golang.org/&#34;&gt;Go&lt;/a&gt;. I was very impressed with the simplicity of the language and I&amp;rsquo;ve started to read a lot of articles, books, etc., watch videos and develop some projects. I discovered &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, a site generator similar to JBake but written in Go. I was tempted to migrate my previous blog, but today I&amp;rsquo;m going to continue writing about not Go subjects, so it&amp;rsquo;s simpler to open a new one only for Go, bots, DevOps, concurrency and perfomance. In another post I will write more about Go and why I find it so interesting.&lt;/p&gt;
 
 &lt;p&gt;As the first post, let&amp;rsquo;s see how to configure &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;. I&amp;rsquo;ve to say it was really easy, I really impressed with piece of software. I can compare with other site generators as Jekyll, Hexo or JBake, and I have to say Hugo is my favourite.&lt;/p&gt;
 
 &lt;p&gt;First of all, I&amp;rsquo;ve created a new repo in my Gihub account and cloned it in my laptop:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git clone git@github.com:antonmry/antonmry.github.io.git
-cd antonmry.github.io 
+cd antonmry.github.io
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Because I&amp;rsquo;m going to use my github user page, the source code of the page must be in master branch. For your Hugo code, you can have a separate repo or just a different branch. I choose the second option with a branch named source, I prefer it in that way, it&amp;rsquo;s simpler and this is the main difference with the procedure you can find in &lt;a href=&#34;https://gohugo.io/tutorials/github-pages-blog&#34;&gt;the excellent Hugo documentation&lt;/a&gt;:&lt;/p&gt;
